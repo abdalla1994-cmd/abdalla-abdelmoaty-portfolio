@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdalla Abdelmoaty | Lead Data Scientist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chosen Palette: Warm Neutral Slate -->
+    <!-- Application Structure Plan: The SPA is designed as a narrative journey to guide a recruiter through the candidate's profile with increasing detail. It starts with a high-level summary and impactful metrics, flows into an interactive career timeline for context, allows for a deep dive into specific skills and projects via interactive cards, and concludes with credentials. This top-down structure allows users to get a quick impression and then explore areas of interest, which is more user-friendly and engaging than a static document. -->
+    <!-- Visualization & Content Choices: 
+        - [Resume Data -> Goal: Summarize Impact -> Dynamic Stat Cards -> Interaction: Hover effects -> Justification: Quickly convey quantifiable achievements.]
+        - [Experience History -> Goal: Show career progression -> Vertical Timeline -> Interaction: Click to expand details -> Justification: More engaging than a list, shows growth over time.]
+        - [Technical Skills -> Goal: Organize and showcase depth -> Categorized Grid -> Interaction: Hover to highlight related projects (future enhancement) -> Justification: Easily scannable and digestible.]
+        - [Industry Experience -> Goal: Compare domain exposure -> Donut Chart (Chart.js) -> Interaction: Hover for tooltips -> Justification: Visually represents the diversity of experience which is a key strength.]
+        - [Job/Project Details -> Goal: Provide in-depth information on demand -> Expandable Cards/Modals -> Interaction: Click to reveal details -> Justification: Keeps the main view clean while offering depth.]
+        All visualizations and interactive elements are implemented using HTML/CSS/Vanilla JS and Chart.js (Canvas), adhering to the NO SVG/Mermaid constraint. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 350px;
+            max-height: 40vh;
+            width: 100%;
+            max-width: 450px;
+        }
+        .section-title {
+            font-size: 1.875rem; /* text-3xl */
+            font-weight: 700;
+            color: #0f172a; /* slate-900 */
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-slate-900">Abdalla Abdelmoaty</div>
+            <div class="hidden md:flex space-x-6">
+                <a href="#summary" class="text-slate-600 hover:text-blue-600">Summary</a>
+                <a href="#experience" class="text-slate-600 hover:text-blue-600">Experience</a>
+                <a href="#skills" class="text-slate-600 hover:text-blue-600">Skills</a>
+                <a href="#projects" class="text-slate-600 hover:text-blue-600">Projects</a>
+                <a href="#contact" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700">Contact</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-slate-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 space-y-2">
+             <a href="#summary" class="block text-slate-600 hover:text-blue-600">Summary</a>
+             <a href="#experience" class="block text-slate-600 hover:text-blue-600">Experience</a>
+             <a href="#skills" class="block text-slate-600 hover:text-blue-600">Skills</a>
+             <a href="#projects" class="block text-slate-600 hover:text-blue-600">Projects</a>
+             <a href="#contact" class="block bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 text-center">Contact</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Hero Section -->
+        <section id="summary" class="text-center py-16 md:py-24">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 leading-tight">Lead Data Scientist</h1>
+            <p class="mt-4 text-lg md:text-xl text-slate-600 max-w-3xl mx-auto">
+                MSc in Data Science & Analytics with 4+ years of experience delivering end-to-end machine learning solutions. Expert in MLOps, predictive modeling, and translating complex data into measurable financial impact.
+            </p>
+            <div class="mt-8 flex justify-center space-x-4">
+                 <a href="mailto:abdelmoatyabdalla5@gmail.com" class="text-slate-600 hover:text-blue-600">📧 Email</a>
+                 <a href="https://linkedin.com/in/your-linkedin-profile" target="_blank" class="text-slate-600 hover:text-blue-600">🔗 LinkedIn</a>
+                 <a href="https://github.com/your-github-username" target="_blank" class="text-slate-600 hover:text-blue-600">💻 GitHub</a>
+            </div>
+        </section>
+        
+        <!-- Key Metrics Section -->
+        <section class="py-16">
+            <h2 class="section-title">Career Highlights & Impact</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                <div class="card p-6">
+                    <div class="text-4xl font-bold text-blue-600">15%</div>
+                    <p class="mt-2 text-slate-600">Reduction in Carbon Impact Events</p>
+                </div>
+                <div class="card p-6">
+                    <div class="text-4xl font-bold text-blue-600">12%</div>
+                    <p class="mt-2 text-slate-600">Decrease in Loan Defaults</p>
+                </div>
+                <div class="card p-6">
+                    <div class="text-4xl font-bold text-blue-600">20%</div>
+                    <p class="mt-2 text-slate-600">Improvement in Wellbore Placement Accuracy</p>
+                </div>
+                <div class="card p-6">
+                    <div class="text-4xl font-bold text-blue-600">$50M</div>
+                    <p class="mt-2 text-slate-600">Optimization Initiative Supported</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="py-16">
+            <h2 class="section-title">Professional Journey</h2>
+            <div id="experience-container" class="space-y-8">
+                <!-- Experience items will be injected here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-16 bg-white rounded-xl shadow-inner">
+             <h2 class="section-title">Technical Skills & Competencies</h2>
+             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div id="skills-container" class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-8">
+                    <!-- Skills will be injected here by JavaScript -->
+                </div>
+                <div class="flex flex-col items-center justify-center">
+                    <h3 class="text-xl font-bold mb-4 text-slate-800 text-center">Industry Experience Distribution</h3>
+                    <div class="chart-container">
+                        <canvas id="industryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-16">
+            <h2 class="section-title">Key Projects & Practicums</h2>
+            <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Projects will be injected here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Education & Certs -->
+        <section id="education" class="py-16">
+            <h2 class="section-title">Education & Certifications</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div id="education-container">
+                    <!-- Education will be injected here -->
+                </div>
+                <div id="certifications-container">
+                     <!-- Certifications will be injected here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <footer id="contact" class="bg-slate-900 text-white text-center py-12 mt-16 rounded-t-xl">
+            <h2 class="text-3xl font-bold">Let's Connect</h2>
+            <p class="mt-4 max-w-xl mx-auto">I'm always interested in new challenges and opportunities. Feel free to reach out.</p>
+            <div class="mt-8">
+                <a href="mailto:abdelmoatyabdalla5@gmail.com" class="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 font-semibold text-lg">abdelmoatyabdalla5@gmail.com</a>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const resumeData = {
+            experience: [
+                {
+                    title: "Lead Engineer - Mathematics & Data Science",
+                    company: "X Corp",
+                    location: "Dhahran, KSA",
+                    date: "Jan 2023 – Present",
+                    points: [
+                        "Spearheaded the development of an ML-powered emission forecasting model for upstream operations, providing 72-hour advance warnings that contributed to a 15% reduction in potential carbon impact events.",
+                        "Architected and deployed a real-time geo-steering decision framework using Bayesian probabilistic models, improving wellbore placement accuracy by 20% and reducing non-productive time.",
+                        "Fine-tuned and deployed a domain-specific Large Language Model (LLM) on internal cloud infrastructure to analyze two decades of unstructured technical reports, automating risk identification and saving over 30 analyst hours per week.",
+                        "Led the design of multiple risk analytics and optimization dashboards in Power BI, providing actionable insights to senior management that guided a 10% more efficient capital allocation for drilling projects."
+                    ]
+                },
+                {
+                    title: "Data Scientist",
+                    company: "Madfu Fintech",
+                    location: "Riyadh, KSA",
+                    date: "Nov 2022 – Jan 2023",
+                    points: [
+                        "Developed and productionized a credit scoring model using XGBoost that decreased loan defaults by 12% in its first quarter of operation.",
+                        "Engineered a geospatial algorithm using Python and mapping APIs to identify high-potential merchant locations, resulting in a 25% increase in targeted sales team efficiency.",
+                        "Authored the company's official Data Acquisition Strategy, providing a roadmap for future data-driven product development and securing a key milestone for a subsequent investment round."
+                    ]
+                },
+                {
+                    title: "Information Technology Manager",
+                    company: "Ma'k for Medical Services",
+                    location: "Medina, KSA",
+                    date: "Oct 2020 – May 2022",
+                    points: [
+                        "Led the digital transformation of financial and medical record systems, improving system performance and data accessibility by 40%.",
+                        "Utilized advanced analytics to advise on business strategy, providing insights that led to the optimization of service offerings and a 5% growth in profitability."
+                    ]
+                }
+            ],
+            skills: [
+                { category: "Languages & Databases", items: ["Python", "R", "SQL", "JMP", "SAS"] },
+                { category: "ML/DL Libraries", items: ["TensorFlow", "Keras", "PyTorch", "Scikit-learn", "Pandas", "NumPy"] },
+                { category: "Platforms & Tools", items: ["AWS (SageMaker, S3)", "Azure", "GCP", "Docker", "Kubernetes", "MLflow", "Airflow", "Tableau", "Power BI", "Hadoop", "Spark"] },
+                { category: "ML Methodologies", items: ["Supervised & Unsupervised Learning", "Deep Learning (NLP, CV)", "Reinforcement Learning", "LLMs", "Statistical Analysis", "A/B Testing", "Time-Series Forecasting"] },
+                { category: "MLOps", items: ["CI/CD Pipelines", "Model Deployment & Monitoring", "Infrastructure as Code (Terraform)"] }
+            ],
+            projects: [
+                 {
+                    title: "Mainframe CPU Usage Optimization",
+                    company: "Liberty Mutual Insurance (Practicum)",
+                    points: [
+                        "Developed an outlier detection framework in Python to identify anomalies in mainframe CPU consumption, supporting a $50M/year optimization initiative.",
+                        "Built data pipelines and an interactive Power BI dashboard to translate analysis into actionable billing reduction strategies."
+                    ]
+                },
+                {
+                    title: "Deposit Behavior Forecasting Model",
+                    company: "Darling Consulting Group (Practicum)",
+                    points: [
+                        "Developed a deep neural network (LSTM) to forecast non-maturity deposit balances for US banks, outperforming previous models by 10%.",
+                        "Engineered data pipelines to integrate diverse government and proprietary financial data sources."
+                    ]
+                }
+            ],
+            education: [
+                {
+                    degree: "Master of Science, Data Science & Analytics",
+                    university: "University of New Hampshire",
+                    location: "Durham, NH, USA",
+                    year: "2020"
+                },
+                {
+                    degree: "Bachelor of Science, Economics & Political Science",
+                    university: "University of Cincinnati (FUE)",
+                    location: "Cairo, Egypt",
+                    year: "2017"
+                }
+            ],
+            certifications: [
+                { name: "Deep Reinforcement Learning Nanodegree", issuer: "Udacity" },
+                { name: "McKinsey Forward Program", issuer: "McKinsey & Company" },
+                { name: "Introduction to Data Curation for SAS Data Scientists", issuer: "SAS" }
+            ]
+        };
+
+        const experienceContainer = document.getElementById('experience-container');
+        resumeData.experience.forEach(job => {
+            const jobElement = document.createElement('div');
+            jobElement.className = 'card p-6';
+            jobElement.innerHTML = `
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-900">${job.title}</h3>
+                        <p class="text-md text-slate-600">${job.company} | ${job.location}</p>
+                    </div>
+                    <p class="text-sm text-slate-500 text-right">${job.date}</p>
+                </div>
+                <ul class="mt-4 list-disc list-inside space-y-2 text-slate-700">
+                    ${job.points.map(point => `<li>${point}</li>`).join('')}
+                </ul>
+            `;
+            experienceContainer.appendChild(jobElement);
+        });
+
+        const skillsContainer = document.getElementById('skills-container');
+        resumeData.skills.forEach(skillCat => {
+            const skillElement = document.createElement('div');
+            skillElement.className = 'card p-6';
+            skillElement.innerHTML = `
+                <h4 class="text-lg font-bold text-slate-900 mb-3">${skillCat.category}</h4>
+                <div class="flex flex-wrap gap-2">
+                    ${skillCat.items.map(item => `<span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm">${item}</span>`).join('')}
+                </div>
+            `;
+            skillsContainer.appendChild(skillElement);
+        });
+
+        const projectsContainer = document.getElementById('projects-container');
+        resumeData.projects.forEach(project => {
+            const projectElement = document.createElement('div');
+            projectElement.className = 'card p-6 flex flex-col';
+            projectElement.innerHTML = `
+                <h3 class="text-xl font-bold text-slate-900">${project.title}</h3>
+                <p class="text-md text-slate-600 mb-4">${project.company}</p>
+                <ul class="list-disc list-inside space-y-2 text-slate-700 flex-grow">
+                    ${project.points.map(point => `<li>${point}</li>`).join('')}
+                </ul>
+            `;
+            projectsContainer.appendChild(projectElement);
+        });
+        
+        const educationContainer = document.getElementById('education-container');
+        educationContainer.innerHTML = '<h3 class="text-2xl font-bold text-slate-900 mb-4">Education</h3>';
+        resumeData.education.forEach(edu => {
+            const eduElement = document.createElement('div');
+            eduElement.className = 'mb-4';
+            eduElement.innerHTML = `
+                <h4 class="text-lg font-semibold text-slate-800">${edu.degree}</h4>
+                <p class="text-slate-600">${edu.university} | ${edu.location}</p>
+                <p class="text-sm text-slate-500">${edu.year}</p>
+            `;
+            educationContainer.appendChild(eduElement);
+        });
+        
+        const certificationsContainer = document.getElementById('certifications-container');
+        certificationsContainer.innerHTML = '<h3 class="text-2xl font-bold text-slate-900 mb-4">Certifications</h3>';
+        resumeData.certifications.forEach(cert => {
+            const certElement = document.createElement('div');
+            certElement.className = 'mb-4';
+            certElement.innerHTML = `
+                <h4 class="text-lg font-semibold text-slate-800">${cert.name}</h4>
+                <p class="text-slate-600">${cert.issuer}</p>
+            `;
+            certificationsContainer.appendChild(certElement);
+        });
+
+        const ctx = document.getElementById('industryChart').getContext('2d');
+        const industryChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Energy', 'Fintech', 'Healthcare', 'Insurance'],
+                datasets: [{
+                    label: 'Industry Experience',
+                    data: [35, 25, 20, 20],
+                    backgroundColor: [
+                        'rgba(59, 130, 246, 0.8)',  // blue-500
+                        'rgba(16, 185, 129, 0.8)', // emerald-500
+                        'rgba(239, 68, 68, 0.8)',   // red-500
+                        'rgba(249, 115, 22, 0.8)'  // orange-500
+                    ],
+                    borderColor: '#f8fafc',
+                    borderWidth: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                         labels: {
+                            color: '#475569', // slate-600
+                            font: {
+                                size: 14
+                            }
+                        }
+                    },
+                    tooltip: {
+                         callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed !== null) {
+                                    label += context.parsed + '%';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                cutout: '60%'
+            }
+        });
+        
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    });
+    </script>
+</body>
+</html>

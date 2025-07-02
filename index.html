@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abdalla Abdelmoaty | Lead Data Scientist</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
         /* Use Inter for body text and Fira Code for the terminal */
@@ -115,16 +116,30 @@
         <!-- Main Content Grid -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             
-            <!-- Left Column: Experience -->
+            <!-- Left Column: Experience & Projects -->
             <main class="md:col-span-2">
-                <h2 class="text-2xl font-bold border-b-2 border-emerald-500 pb-2 mb-6">Experience</h2>
-                <div id="experience-timeline" class="relative space-y-4">
-                    <!-- Experience items will be injected here by JavaScript -->
-                </div>
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold border-b-2 border-emerald-500 pb-2 mb-6">Experience</h2>
+                    <div id="experience-timeline" class="relative space-y-4">
+                        <!-- Experience items will be injected here by JavaScript -->
+                    </div>
+                </section>
+                
+                <section>
+                    <h2 class="text-2xl font-bold border-b-2 border-emerald-500 pb-2 mb-6">Projects</h2>
+                    <div id="projects-list" class="space-y-4">
+                        <!-- Projects will be injected here by JavaScript -->
+                    </div>
+                </section>
             </main>
 
             <!-- Right Column: Skills, Education, etc. -->
             <aside>
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold border-b-2 border-emerald-500 pb-2 mb-4">Sector Experience</h2>
+                    <canvas id="sectorChart"></canvas>
+                </section>
+                
                 <section class="mb-8">
                     <h2 class="text-2xl font-bold border-b-2 border-emerald-500 pb-2 mb-4">Technical Skills</h2>
                     <div class="space-y-3">
@@ -272,7 +287,6 @@
                 timelineContainer.appendChild(item);
 
                 item.addEventListener('click', () => {
-                    // Deactivate all other items
                     document.querySelectorAll('.timeline-item').forEach(el => {
                         if (el !== item) {
                             el.classList.remove('active');
@@ -280,15 +294,104 @@
                             el.querySelector('svg').classList.remove('rotate-180');
                         }
                     });
-
-                    // Toggle active state for the clicked item
                     item.classList.toggle('active');
                     content.classList.toggle('show');
                     item.querySelector('svg').classList.toggle('rotate-180');
                 });
             });
+
+            // --- Projects Section ---
+            const projectsData = [
+                {
+                    title: 'Data Science Practicum: Mainframe CPU Usage Optimization',
+                    company: 'Liberty Mutual Insurance, Newburyport, MA, USA',
+                    period: 'Nov 2019 - May 2020',
+                    details: [
+                        'Developed an outlier detection framework in Python to identify anomalies in mainframe CPU consumption, supporting a $50M/year optimization initiative.',
+                        'Built data pipelines and an interactive Power BI dashboard to translate analysis into actionable billing reduction strategies.'
+                    ]
+                },
+                {
+                    title: 'Data Science Practicum: Deposit Behavior Forecasting Model',
+                    company: 'Darling Consulting Group, Newburyport, MA, USA',
+                    period: 'Nov 2019 - May 2020',
+                    details: [
+                        'Developed a deep neural network (LSTM) to forecast non-maturity deposit balances for US banks, outperforming previous models by 10%.',
+                        'Engineered data pipelines to integrate diverse government and financial data sources.'
+                    ]
+                }
+            ];
+
+            const projectsContainer = document.getElementById('projects-list');
+            projectsData.forEach(project => {
+                const projectCard = document.createElement('div');
+                projectCard.className = 'bg-white p-4 rounded-lg shadow-sm';
+                
+                let detailsHtml = '<ul class="list-disc list-inside space-y-1 text-sm text-gray-700 mt-2">';
+                project.details.forEach(detail => {
+                    detailsHtml += `<li>${detail}</li>`;
+                });
+                detailsHtml += '</ul>';
+
+                projectCard.innerHTML = `
+                    <h3 class="font-bold text-lg">${project.title}</h3>
+                    <p class="text-sm text-emerald-600">${project.company}</p>
+                    <p class="text-xs text-gray-500 mb-2">${project.period}</p>
+                    ${detailsHtml}
+                `;
+                projectsContainer.appendChild(projectCard);
+            });
+
+            // --- Sector Experience Chart ---
+            const ctx = document.getElementById('sectorChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Energy', 'Fintech', 'Healthcare'],
+                    datasets: [{
+                        label: 'Sector Experience',
+                        data: [43, 28.5, 28.5], // Relative weights based on experience
+                        backgroundColor: [
+                            'rgba(5, 150, 105, 0.8)', // Emerald-600
+                            'rgba(16, 185, 129, 0.8)', // Emerald-500
+                            'rgba(52, 211, 153, 0.8)' // Emerald-400
+                        ],
+                        borderColor: [
+                            'rgba(5, 150, 105, 1)',
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(52, 211, 153, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
         });
     </script>
 
 </body>
 </html>
+
+

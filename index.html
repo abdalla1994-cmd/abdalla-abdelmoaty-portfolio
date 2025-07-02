@@ -1,389 +1,294 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abdalla Abdelmoaty | Lead Data Scientist</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Chosen Palette: Warm Neutral Slate -->
-    <!-- Application Structure Plan: The SPA is designed as a narrative journey to guide a recruiter through the candidate's profile with increasing detail. It starts with a high-level summary and impactful metrics, flows into an interactive career timeline for context, allows for a deep dive into specific skills and projects via interactive cards, and concludes with credentials. This top-down structure allows users to get a quick impression and then explore areas of interest, which is more user-friendly and engaging than a static document. -->
-    <!-- Visualization & Content Choices: 
-        - [Resume Data -> Goal: Summarize Impact -> Dynamic Stat Cards -> Interaction: Hover effects -> Justification: Quickly convey quantifiable achievements.]
-        - [Experience History -> Goal: Show career progression -> Vertical Timeline -> Interaction: Click to expand details -> Justification: More engaging than a list, shows growth over time.]
-        - [Technical Skills -> Goal: Organize and showcase depth -> Categorized Grid -> Interaction: Hover to highlight related projects (future enhancement) -> Justification: Easily scannable and digestible.]
-        - [Industry Experience -> Goal: Compare domain exposure -> Donut Chart (Chart.js) -> Interaction: Hover for tooltips -> Justification: Visually represents the diversity of experience which is a key strength.]
-        - [Job/Project Details -> Goal: Provide in-depth information on demand -> Expandable Cards/Modals -> Interaction: Click to reveal details -> Justification: Keeps the main view clean while offering depth.]
-        All visualizations and interactive elements are implemented using HTML/CSS/Vanilla JS and Chart.js (Canvas), adhering to the NO SVG/Mermaid constraint. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
+        /* Use Inter for body text and Fira Code for the terminal */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* slate-50 */
-            color: #1e293b; /* slate-800 */
+            background-color: #f3f4f6; /* A light gray background */
         }
-        .chart-container {
-            position: relative;
-            margin: auto;
-            height: 350px;
-            max-height: 40vh;
-            width: 100%;
-            max-width: 450px;
+        .font-fira {
+            font-family: 'Fira Code', monospace;
         }
-        .section-title {
-            font-size: 1.875rem; /* text-3xl */
-            font-weight: 700;
-            color: #0f172a; /* slate-900 */
-            margin-bottom: 2rem;
-            text-align: center;
+        /* Style for the terminal cursor */
+        .cursor::after {
+            content: '_';
+            animation: blink 1s step-end infinite;
         }
-        .card {
-            background-color: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        @keyframes blink {
+            from, to { color: transparent }
+            50% { color: #34d399; } /* Emerald green cursor */
         }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+        /* Styles for the interactive timeline */
+        .timeline-item {
+            border-left: 3px solid #d1d5db; /* Gray border */
+            transition: border-color 0.3s ease;
+        }
+        .timeline-item.active {
+            border-left-color: #10b981; /* Emerald green when active */
+        }
+        .timeline-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+            opacity: 0;
+        }
+        .timeline-content.show {
+            max-height: 500px; /* Adjust as needed */
+            opacity: 1;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -9px; /* Adjust to center on the line */
+            top: 50%;
+            transform: translateY(-50%);
+            width: 15px;
+            height: 15px;
+            background-color: #d1d5db;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+        .timeline-item.active .timeline-dot {
+             background-color: #10b981;
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="text-gray-800">
 
-    <!-- Header & Navigation -->
-    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold text-slate-900">Abdalla Abdelmoaty</div>
-            <div class="hidden md:flex space-x-6">
-                <a href="#summary" class="text-slate-600 hover:text-blue-600">Summary</a>
-                <a href="#experience" class="text-slate-600 hover:text-blue-600">Experience</a>
-                <a href="#skills" class="text-slate-600 hover:text-blue-600">Skills</a>
-                <a href="#projects" class="text-slate-600 hover:text-blue-600">Projects</a>
-                <a href="#contact" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700">Contact</a>
-            </div>
-            <button id="mobile-menu-button" class="md:hidden text-slate-800">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-            </button>
-        </nav>
-        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 space-y-2">
-             <a href="#summary" class="block text-slate-600 hover:text-blue-600">Summary</a>
-             <a href="#experience" class="block text-slate-600 hover:text-blue-600">Experience</a>
-             <a href="#skills" class="block text-slate-600 hover:text-blue-600">Skills</a>
-             <a href="#projects" class="block text-slate-600 hover:text-blue-600">Projects</a>
-             <a href="#contact" class="block bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 text-center">Contact</a>
-        </div>
-    </header>
+    <!-- 
+        GitHub Pages Deployment Instructions:
+        1. Create a new repository on GitHub.
+        2. Name this file `index.html`.
+        3. Upload this `index.html` file to your new repository.
+        4. Go to your repository's "Settings" tab.
+        5. In the left sidebar, click on "Pages".
+        6. Under "Build and deployment", select "Deploy from a branch" as the source.
+        7. Choose the `main` (or `master`) branch and the `/(root)` folder, then click "Save".
+        8. GitHub will provide you with a URL (e.g., `your-username.github.io/repository-name`). Your resume will be live there!
+    -->
 
-    <main class="container mx-auto px-6 py-12">
-
-        <!-- Hero Section -->
-        <section id="summary" class="text-center py-16 md:py-24">
-            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 leading-tight">Lead Data Scientist</h1>
-            <p class="mt-4 text-lg md:text-xl text-slate-600 max-w-3xl mx-auto">
-                MSc in Data Science & Analytics with 4+ years of experience delivering end-to-end machine learning solutions. Expert in MLOps, predictive modeling, and translating complex data into measurable financial impact.
-            </p>
-            <div class="mt-8 flex justify-center space-x-4">
-                 <a href="mailto:abdelmoatyabdalla5@gmail.com" class="text-slate-600 hover:text-blue-600">📧 Email</a>
-                 <a href="https://www.linkedin.com/in/abdalla-a-488839148/" target="_blank" class="text-slate-600 hover:text-blue-600">🔗 LinkedIn</a>
-                 <a href="https://github.com/abdalla1994-cmd" target="_blank" class="text-slate-600 hover:text-blue-600">💻 GitHub</a>
-            </div>
-        </section>
+    <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
         
-        <!-- Key Metrics Section -->
-        <section class="py-16">
-            <h2 class="section-title">Career Highlights & Impact</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-                <div class="card p-6">
-                    <div class="text-4xl font-bold text-blue-600">15%</div>
-                    <p class="mt-2 text-slate-600">Reduction in Carbon Impact Events</p>
-                </div>
-                <div class="card p-6">
-                    <div class="text-4xl font-bold text-blue-600">12%</div>
-                    <p class="mt-2 text-slate-600">Decrease in Loan Defaults</p>
-                </div>
-                <div class="card p-6">
-                    <div class="text-4xl font-bold text-blue-600">20%</div>
-                    <p class="mt-2 text-slate-600">Improvement in Wellbore Placement Accuracy</p>
-                </div>
-                <div class="card p-6">
-                    <div class="text-4xl font-bold text-blue-600">$50M</div>
-                    <p class="mt-2 text-slate-600">Optimization Initiative Supported</p>
-                </div>
+        <!-- Header Section -->
+        <header class="flex flex-col sm:flex-row items-center justify-between mb-8">
+            <div>
+                <h1 class="text-4xl font-bold text-gray-900">Abdalla Abdelmoaty, MSc</h1>
+                <p class="text-xl text-emerald-600">Lead Data Scientist</p>
+            </div>
+            <div class="text-right mt-4 sm:mt-0 space-y-1">
+                <a href="mailto:abdelmoatyabdalla5@gmail.com" class="flex items-center justify-end text-sm hover:text-emerald-600 transition-colors">
+                    abdelmoatyabdalla5@gmail.com 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                </a>
+                <a href="tel:+966543147888" class="flex items-center justify-end text-sm hover:text-emerald-600 transition-colors">
+                    +966543147888
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                </a>
+                 <a href="https://abdalla1994-cmd.github.io/abdalla-abdelmoaty-portfolio" target="_blank" rel="noopener noreferrer" class="flex items-center justify-end text-sm hover:text-emerald-600 transition-colors">
+                    Portfolio
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                </a>
+            </div>
+        </header>
+
+        <!-- Creative Trick: Animated Terminal -->
+        <section id="terminal" class="bg-gray-900 rounded-lg shadow-lg p-4 mb-12 font-fira text-sm">
+            <div class="flex items-center mb-2">
+                <span class="h-3 w-3 bg-red-500 rounded-full mr-2"></span>
+                <span class="h-3 w-3 bg-yellow-500 rounded-full mr-2"></span>
+                <span class="h-3 w-3 bg-green-500 rounded-full"></span>
+            </div>
+            <div class="text-green-400">
+                <span class="text-blue-400">user@abdalla-portfolio</span>:<span class="text-gray-400">~</span>$ ./fetch-summary.sh
+            </div>
+            <div id="summary-output" class="text-gray-300 mt-2">
+                <span id="typing-text"></span><span class="cursor"></span>
             </div>
         </section>
 
-        <!-- Experience Section -->
-        <section id="experience" class="py-16">
-            <h2 class="section-title">Professional Journey</h2>
-            <div id="experience-container" class="space-y-8">
-                <!-- Experience items will be injected here by JavaScript -->
-            </div>
-        </section>
-
-        <!-- Skills Section -->
-        <section id="skills" class="py-16 bg-white rounded-xl shadow-inner">
-             <h2 class="section-title">Technical Skills & Competencies</h2>
-             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div id="skills-container" class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-8">
-                    <!-- Skills will be injected here by JavaScript -->
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Left Column: Experience -->
+            <main class="md:col-span-2">
+                <h2 class="text-2xl font-bold border-b-2 border-emerald-500 pb-2 mb-6">Experience</h2>
+                <div id="experience-timeline" class="relative space-y-4">
+                    <!-- Experience items will be injected here by JavaScript -->
                 </div>
-                <div class="flex flex-col items-center justify-center">
-                    <h3 class="text-xl font-bold mb-4 text-slate-800 text-center">Industry Experience Distribution</h3>
-                    <div class="chart-container">
-                        <canvas id="industryChart"></canvas>
+            </main>
+
+            <!-- Right Column: Skills, Education, etc. -->
+            <aside>
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold border-b-2 border-emerald-500 pb-2 mb-4">Technical Skills</h2>
+                    <div class="space-y-3">
+                        <div>
+                            <h3 class="font-semibold text-emerald-700">Languages</h3>
+                            <p class="text-sm">Python, R, SQL, JMP, SAS</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-emerald-700">ML/DL Libraries</h3>
+                            <p class="text-sm">TensorFlow, Keras, PyTorch, Scikit-learn, Pandas, NumPy</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-emerald-700">Platforms & Tools</h3>
+                            <p class="text-sm">AWS (SageMaker, S3), Azure, GCP, Docker, Kubernetes, MLflow, Airflow, Tableau, Power BI, Hadoop, Spark</p>
+                        </div>
+                         <div>
+                            <h3 class="font-semibold text-emerald-700">ML Methodologies</h3>
+                            <p class="text-sm">Supervised & Unsupervised Learning, Deep Learning (NLP, CV), Reinforcement Learning, LLMs, Statistical Analysis, A/B Testing, Time-Series Forecasting</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-emerald-700">MLOps</h3>
+                            <p class="text-sm">CI/CD Pipelines, Model Deployment & Monitoring, Infrastructure as Code (Terraform)</p>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </section>
+                </section>
 
-        <!-- Projects Section -->
-        <section id="projects" class="py-16">
-            <h2 class="section-title">Key Projects & Practicums</h2>
-            <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Projects will be injected here by JavaScript -->
-            </div>
-        </section>
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold border-b-2 border-emerald-500 pb-2 mb-4">Education</h2>
+                     <div class="bg-white p-4 rounded-lg shadow-sm">
+                        <h3 class="font-bold">MSc, Data Science and Analytics</h3>
+                        <p class="text-sm text-gray-600">University of New Hampshire, USA</p>
+                        <p class="text-xs text-gray-500">2019 - 2020</p>
+                    </div>
+                     <div class="bg-white p-4 rounded-lg shadow-sm mt-3">
+                        <h3 class="font-bold">BSc, Economics And Political Science</h3>
+                        <p class="text-sm text-gray-600">University of Cincinnati-Future University (FUE)</p>
+                        <p class="text-xs text-gray-500">2014 - 2017</p>
+                    </div>
+                </section>
 
-        <!-- Education & Certs -->
-        <section id="education" class="py-16">
-            <h2 class="section-title">Education & Certifications</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div id="education-container">
-                    <!-- Education will be injected here -->
-                </div>
-                <div id="certifications-container">
-                     <!-- Certifications will be injected here -->
-                </div>
-            </div>
-        </section>
+                <section>
+                    <h2 class="text-2xl font-bold border-b-2 border-emerald-500 pb-2 mb-4">Certifications</h2>
+                    <ul class="list-disc list-inside space-y-2 text-sm">
+                        <li>Deep Reinforcement Learning Nanodegree, Udacity</li>
+                        <li>McKinsey Forward Program, McKinsey & Company</li>
+                        <li>Introduction to Data Curation, SAS®</li>
+                    </ul>
+                </section>
+            </aside>
+        </div>
 
-        <!-- Contact Section -->
-        <footer id="contact" class="bg-slate-900 text-white text-center py-12 mt-16 rounded-t-xl">
-            <h2 class="text-3xl font-bold">Let's Connect</h2>
-            <p class="mt-4 max-w-xl mx-auto">I'm always interested in new challenges and opportunities. Feel free to reach out.</p>
-            <div class="mt-8">
-                <a href="mailto:abdelmoatyabdalla5@gmail.com" class="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 font-semibold text-lg">abdelmoatyabdalla5@gmail.com</a>
-            </div>
-        </footer>
-    </main>
+    </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const resumeData = {
-            experience: [
-                {
-                    title: "Lead Engineer - Mathematics & Data Science",
-                    company: "X Corp",
-                    location: "Dhahran, KSA",
-                    date: "Jan 2023 – Present",
-                    points: [
-                        "Spearheaded the development of an ML-powered emission forecasting model for upstream operations, providing 72-hour advance warnings that contributed to a 15% reduction in potential carbon impact events.",
-                        "Architected and deployed a real-time geo-steering decision framework using Bayesian probabilistic models, improving wellbore placement accuracy by 20% and reducing non-productive time.",
-                        "Fine-tuned and deployed a domain-specific Large Language Model (LLM) to analyze two decades of unstructured technical reports, automating risk identification and saving over 30 analyst hours per week.",
-                        "Led the design of multiple risk analytics and optimization dashboards in Power BI, providing actionable insights to senior management that guided a 10% more efficient capital allocation for drilling projects."
-                    ]
-                },
-                {
-                    title: "Data Scientist",
-                    company: "Madfu Fintech",
-                    location: "Riyadh, KSA",
-                    date: "Nov 2022 – Jan 2023",
-                    points: [
-                        "Developed and productionized a credit scoring model using XGBoost that decreased loan defaults by 12% in its first quarter of operation.",
-                        "Engineered a geospatial algorithm using Python and mapping APIs to identify high-potential merchant locations, resulting in a 25% increase in targeted sales team efficiency.",
-                        "Authored the company's official Data Acquisition Strategy, providing a roadmap for future data-driven product development and securing a key milestone for a subsequent investment round."
-                    ]
-                },
-                {
-                    title: "Information Technology Manager",
-                    company: "Ma'k for Medical Services",
-                    location: "Medina, KSA",
-                    date: "Oct 2020 – May 2022",
-                    points: [
-                        "Led the digital transformation of financial and medical record systems, improving system performance and data accessibility by 40%.",
-                        "Utilized advanced analytics to advise on business strategy, providing insights that led to the optimization of service offerings and a 5% growth in profitability."
-                    ]
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- Animated Terminal Effect ---
+            const summaryText = "Lead Data Scientist with over 4 years of experience delivering end-to-end machine learning solutions across the energy, fintech, and healthcare sectors. Proven expertise in MLOps, predictive modeling, and leveraging Large Language Models (LLMs) to solve complex business challenges. A strategic thinker dedicated to translating data into actionable insights and measurable financial impact.";
+            const typingElement = document.getElementById('typing-text');
+            let i = 0;
+            function typeWriter() {
+                if (i < summaryText.length) {
+                    typingElement.innerHTML += summaryText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 20); // Adjust typing speed here
                 }
-            ],
-            skills: [
-                { category: "Languages & Databases", items: ["Python", "R", "SQL", "JMP", "SAS"] },
-                { category: "ML/DL Libraries", items: ["TensorFlow", "Keras", "PyTorch", "Scikit-learn", "Pandas", "NumPy"] },
-                { category: "Platforms & Tools", items: ["AWS (SageMaker, S3)", "Azure", "GCP", "Docker", "Kubernetes", "MLflow", "Airflow", "Tableau", "Power BI", "Hadoop", "Spark"] },
-                { category: "ML Methodologies", items: ["Supervised & Unsupervised Learning", "Deep Learning (NLP, CV)", "Reinforcement Learning", "LLMs", "Statistical Analysis", "A/B Testing", "Time-Series Forecasting"] },
-                { category: "MLOps", items: ["CI/CD Pipelines", "Model Deployment & Monitoring", "Infrastructure as Code (Terraform)"] }
-            ],
-            projects: [
-                 {
-                    title: "Mainframe CPU Usage Optimization",
-                    company: "Liberty Mutual Insurance (Practicum)",
-                    points: [
-                        "Developed an outlier detection framework in Python to identify anomalies in mainframe CPU consumption, supporting a $50M/year optimization initiative.",
-                        "Built data pipelines and an interactive Power BI dashboard to translate analysis into actionable billing reduction strategies."
-                    ]
-                },
-                {
-                    title: "Deposit Behavior Forecasting Model",
-                    company: "Darling Consulting Group (Practicum)",
-                    points: [
-                        "Developed a deep neural network (LSTM) to forecast non-maturity deposit balances for US banks, outperforming previous models by 10%.",
-                        "Engineered data pipelines to integrate diverse government and proprietary financial data sources."
-                    ]
-                }
-            ],
-            education: [
-                {
-                    degree: "Master of Science, Data Science & Analytics",
-                    university: "University of New Hampshire",
-                    location: "Durham, NH, USA",
-                    year: "2020"
-                },
-                {
-                    degree: "Bachelor of Science, Economics & Political Science",
-                    university: "University of Cincinnati (FUE)",
-                    location: "Cairo, Egypt",
-                    year: "2017"
-                }
-            ],
-            certifications: [
-                { name: "Deep Reinforcement Learning Nanodegree", issuer: "Udacity" },
-                { name: "McKinsey Forward Program", issuer: "McKinsey & Company" },
-                { name: "Introduction to Data Curation for SAS Data Scientists", issuer: "SAS" }
-            ]
-        };
-
-        const experienceContainer = document.getElementById('experience-container');
-        resumeData.experience.forEach(job => {
-            const jobElement = document.createElement('div');
-            jobElement.className = 'card p-6';
-            jobElement.innerHTML = `
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="text-xl font-bold text-slate-900">${job.title}</h3>
-                        <p class="text-md text-slate-600">${job.company} | ${job.location}</p>
-                    </div>
-                    <p class="text-sm text-slate-500 text-right">${job.date}</p>
-                </div>
-                <ul class="mt-4 list-disc list-inside space-y-2 text-slate-700">
-                    ${job.points.map(point => `<li>${point}</li>`).join('')}
-                </ul>
-            `;
-            experienceContainer.appendChild(jobElement);
-        });
-
-        const skillsContainer = document.getElementById('skills-container');
-        resumeData.skills.forEach(skillCat => {
-            const skillElement = document.createElement('div');
-            skillElement.className = 'card p-6';
-            skillElement.innerHTML = `
-                <h4 class="text-lg font-bold text-slate-900 mb-3">${skillCat.category}</h4>
-                <div class="flex flex-wrap gap-2">
-                    ${skillCat.items.map(item => `<span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm">${item}</span>`).join('')}
-                </div>
-            `;
-            skillsContainer.appendChild(skillElement);
-        });
-
-        const projectsContainer = document.getElementById('projects-container');
-        resumeData.projects.forEach(project => {
-            const projectElement = document.createElement('div');
-            projectElement.className = 'card p-6 flex flex-col';
-            projectElement.innerHTML = `
-                <h3 class="text-xl font-bold text-slate-900">${project.title}</h3>
-                <p class="text-md text-slate-600 mb-4">${project.company}</p>
-                <ul class="list-disc list-inside space-y-2 text-slate-700 flex-grow">
-                    ${project.points.map(point => `<li>${point}</li>`).join('')}
-                </ul>
-            `;
-            projectsContainer.appendChild(projectElement);
-        });
-        
-        const educationContainer = document.getElementById('education-container');
-        educationContainer.innerHTML = '<h3 class="text-2xl font-bold text-slate-900 mb-4">Education</h3>';
-        resumeData.education.forEach(edu => {
-            const eduElement = document.createElement('div');
-            eduElement.className = 'mb-4';
-            eduElement.innerHTML = `
-                <h4 class="text-lg font-semibold text-slate-800">${edu.degree}</h4>
-                <p class="text-slate-600">${edu.university} | ${edu.location}</p>
-                <p class="text-sm text-slate-500">${edu.year}</p>
-            `;
-            educationContainer.appendChild(eduElement);
-        });
-        
-        const certificationsContainer = document.getElementById('certifications-container');
-        certificationsContainer.innerHTML = '<h3 class="text-2xl font-bold text-slate-900 mb-4">Certifications</h3>';
-        resumeData.certifications.forEach(cert => {
-            const certElement = document.createElement('div');
-            certElement.className = 'mb-4';
-            certElement.innerHTML = `
-                <h4 class="text-lg font-semibold text-slate-800">${cert.name}</h4>
-                <p class="text-slate-600">${cert.issuer}</p>
-            `;
-            certificationsContainer.appendChild(certElement);
-        });
-
-        const ctx = document.getElementById('industryChart').getContext('2d');
-        const industryChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Energy', 'Fintech', 'Healthcare', 'Insurance'],
-                datasets: [{
-                    label: 'Industry Experience',
-                    data: [35, 25, 20, 20],
-                    backgroundColor: [
-                        'rgba(59, 130, 246, 0.8)',  // blue-500
-                        'rgba(16, 185, 129, 0.8)', // emerald-500
-                        'rgba(239, 68, 68, 0.8)',   // red-500
-                        'rgba(249, 115, 22, 0.8)'  // orange-500
-                    ],
-                    borderColor: '#f8fafc',
-                    borderWidth: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                         labels: {
-                            color: '#475569', // slate-600
-                            font: {
-                                size: 14
-                            }
-                        }
-                    },
-                    tooltip: {
-                         callbacks: {
-                            label: function(context) {
-                                let label = context.label || '';
-                                if (label) {
-                                    label += ': ';
-                                }
-                                if (context.parsed !== null) {
-                                    label += context.parsed + '%';
-                                }
-                                return label;
-                            }
-                        }
-                    }
-                },
-                cutout: '60%'
             }
+            typeWriter();
+
+
+            // --- Interactive Experience Timeline ---
+            const experienceData = [
+                {
+                    role: 'Lead Engineer - Mathematics & Data Science',
+                    company: 'Baker Hughes',
+                    period: 'Jan 2023 - Present',
+                    location: 'Dhahran, Saudi Arabia',
+                    details: [
+                        'Led the design of multiple risk analytics and optimization dashboards in Power BI, guiding a 10% more efficient capital allocation.',
+                        'Delivered a cutting-edge ML/AI-powered emission forecasting model, contributing to a 15% reduction in potential carbon impact.',
+                        'Architected and deployed a real-time geo-steering decision framework, improving wellbore placement accuracy by 20%.',
+                        'Fine-tuned and deployed a domain-specific LLM to analyze technical reports, saving over 30 analyst hours per week.'
+                    ]
+                },
+                {
+                    role: 'Data Scientist',
+                    company: 'Madfu Fintech',
+                    period: 'Nov 2022 - Present',
+                    location: 'Riyadh, Saudi Arabia',
+                    details: [
+                        'Developed and productionized a credit scoring model that decreased loan defaults by 12%.',
+                        'Engineered a geospatial algorithm, resulting in a 25% increase in targeted sales team efficiency.',
+                        'Authored the company\'s official Data Acquisition Strategy, securing a key milestone for a subsequent investment round.'
+                    ]
+                },
+                {
+                    role: 'Information Technology Manager',
+                    company: 'Ma\'k for medical services',
+                    period: 'Oct 2020 - May 2022',
+                    location: 'Medina, Saudi Arabia',
+                    details: [
+                        'Led the digital transformation of financial and medical record systems, improving system performance by 40%.',
+                        'Utilized advanced analytics to advise on business strategy, leading to a 5% growth in profitability.'
+                    ]
+                }
+            ];
+
+            const timelineContainer = document.getElementById('experience-timeline');
+
+            experienceData.forEach((job, index) => {
+                const item = document.createElement('div');
+                item.className = 'timeline-item pl-8 pr-4 py-2 relative cursor-pointer';
+                if(index === 0) item.classList.add('active'); // Make the first item active by default
+
+                const dot = document.createElement('div');
+                dot.className = 'timeline-dot';
+
+                const header = document.createElement('div');
+                header.className = 'flex justify-between items-center';
+                header.innerHTML = `
+                    <div>
+                        <h3 class="font-bold text-lg">${job.role}</h3>
+                        <p class="text-md text-emerald-600">${job.company}</p>
+                        <p class="text-xs text-gray-500">${job.period} | ${job.location}</p>
+                    </div>
+                    <svg class="w-6 h-6 text-gray-400 transition-transform transform ${index === 0 ? 'rotate-180' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                `;
+                
+                const content = document.createElement('div');
+                content.className = 'timeline-content mt-2';
+                 if(index === 0) content.classList.add('show');
+
+                const list = document.createElement('ul');
+                list.className = 'list-disc list-inside space-y-1 text-sm text-gray-700';
+                job.details.forEach(detail => {
+                    const li = document.createElement('li');
+                    li.textContent = detail;
+                    list.appendChild(li);
+                });
+
+                content.appendChild(list);
+                item.appendChild(dot);
+                item.appendChild(header);
+                item.appendChild(content);
+                timelineContainer.appendChild(item);
+
+                item.addEventListener('click', () => {
+                    // Deactivate all other items
+                    document.querySelectorAll('.timeline-item').forEach(el => {
+                        if (el !== item) {
+                            el.classList.remove('active');
+                            el.querySelector('.timeline-content').classList.remove('show');
+                            el.querySelector('svg').classList.remove('rotate-180');
+                        }
+                    });
+
+                    // Toggle active state for the clicked item
+                    item.classList.toggle('active');
+                    content.classList.toggle('show');
+                    item.querySelector('svg').classList.toggle('rotate-180');
+                });
+            });
         });
-        
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-    });
     </script>
+
 </body>
 </html>

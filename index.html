@@ -3,395 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abdalla Abdelmoaty | Lead Data Scientist</title>
+    <title>Abdalla Abdelmoaty - Lead Data Scientist</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Use Inter for body text and Fira Code for the terminal */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6; /* A light gray background */
         }
-        .font-fira {
-            font-family: 'Fira Code', monospace;
-        }
-        /* Style for the terminal cursor */
-        .cursor::after {
-            content: '_';
-            animation: blink 1s step-end infinite;
-        }
-        @keyframes blink {
-            from, to { color: transparent }
-            50% { color: #34d399; } /* Emerald green cursor */
-        }
-
-        /* Styles for the interactive timeline */
-        .timeline-item {
-            border-left: 3px solid #d1d5db; /* Gray border */
-            transition: border-color 0.3s ease;
-        }
-        .timeline-item.active {
-            border-left-color: #10b981; /* Emerald green when active */
-        }
-        .timeline-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
-            opacity: 0;
-        }
-        .timeline-content.show {
-            max-height: 500px; /* Adjust as needed */
-            opacity: 1;
-        }
-        .timeline-dot {
-            position: absolute;
-            left: -9px; /* Adjust to center on the line */
-            top: 50%;
-            transform: translateY(-50%);
-            width: 15px;
-            height: 15px;
-            background-color: #d1d5db;
-            border-radius: 50%;
-            transition: background-color 0.3s ease;
-        }
-        .timeline-item.active .timeline-dot {
-             background-color: #10b981;
+        /* Simple print-friendly styles */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .no-print {
+                display: none;
+            }
+            .print-break-inside-avoid {
+                page-break-inside: avoid;
+            }
         }
     </style>
 </head>
-<body class="text-gray-800">
+<body class="bg-gray-100 text-gray-800">
 
-    <!-- 
-        GitHub Pages Deployment Instructions:
-        1. Create a new repository on GitHub.
-        2. Name this file `index.html`.
-        3. Upload this `index.html` file to your new repository.
-        4. Go to your repository's "Settings" tab.
-        5. In the left sidebar, click on "Pages".
-        6. Under "Build and deployment", select "Deploy from a branch" as the source.
-        7. Choose the `main` (or `master`) branch and the `/(root)` folder, then click "Save".
-        8. GitHub will provide you with a URL (e.g., `your-username.github.io/repository-name`). Your resume will be live there!
-    -->
-
-    <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+    <div class="container mx-auto max-w-4xl p-4 sm:p-6 lg:p-8 bg-white shadow-2xl rounded-lg my-8">
         
         <!-- Header Section -->
-        <header class="flex flex-col sm:flex-row items-center justify-between mb-8">
-            <div>
-                <h1 class="text-4xl font-bold text-gray-900">Abdalla Abdelmoaty, MSc</h1>
-                <p class="text-xl text-emerald-600">Lead Data Scientist</p>
-            </div>
-            <div class="text-right mt-4 sm:mt-0 space-y-1">
-                <a href="mailto:abdelmoatyabdalla5@gmail.com" class="flex items-center justify-end text-sm hover:text-emerald-600 transition-colors">
-                    abdelmoatyabdalla5@gmail.com 
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        <header class="text-center border-b-2 border-gray-200 pb-6 mb-8">
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 tracking-tight">Abdalla Abdelmoaty, MSc</h1>
+            <h2 class="text-xl sm:text-2xl font-medium text-blue-600 mt-2">Lead Data Scientist | AI & Machine Learning Specialist</h2>
+            
+            <div class="flex justify-center items-center flex-wrap gap-x-6 gap-y-2 mt-6 text-sm text-gray-600">
+                <a href="mailto:abdelmoatyabdalla5@gmail.com" class="flex items-center hover:text-blue-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    abdelmoatyabdalla5@gmail.com
                 </a>
-                <a href="tel:+966543147888" class="flex items-center justify-end text-sm hover:text-emerald-600 transition-colors">
+                <span class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
                     +966543147888
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                </a>
-                 <a href="https://abdalla1994-cmd.github.io/abdalla-abdelmoaty-portfolio" target="_blank" rel="noopener noreferrer" class="flex items-center justify-end text-sm hover:text-emerald-600 transition-colors">
-                    Portfolio
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                </a>
+                </span>
+                <span class="flex items-center">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    Dhahran, Eastern, Saudi Arabia
+                </span>
             </div>
         </header>
 
-        <!-- Creative Trick: Animated Terminal -->
-        <section id="terminal" class="bg-gray-900 rounded-lg shadow-lg p-4 mb-12 font-fira text-sm">
-            <div class="flex items-center mb-2">
-                <span class="h-3 w-3 bg-red-500 rounded-full mr-2"></span>
-                <span class="h-3 w-3 bg-yellow-500 rounded-full mr-2"></span>
-                <span class="h-3 w-3 bg-green-500 rounded-full"></span>
+        <!-- Main Content -->
+        <main>
+            <!-- Professional Profile -->
+            <section class="mb-8 print-break-inside-avoid">
+                <h3 class="text-2xl font-bold text-gray-900 border-b-2 border-blue-500 pb-2 mb-4">Professional Profile</h3>
+                <p class="text-base leading-relaxed">
+                    A Lead Data Scientist with extensive experience delivering end-to-end machine learning solutions across the energy, fintech, and healthcare sectors. A strategic thinker with proven expertise in MLOps, predictive modeling, and leveraging Large Language Models (LLMs) to solve complex business challenges. Dedicated to translating data into actionable insights and creating significant financial and operational impact.
+                </p>
+            </section>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Column -->
+                <div class="lg:col-span-2">
+                    <!-- Experience Section -->
+                    <section class="mb-8 print-break-inside-avoid">
+                        <h3 class="text-2xl font-bold text-gray-900 border-b-2 border-blue-500 pb-2 mb-4">Professional Experience</h3>
+                        <div class="space-y-6">
+                            <!-- Job 1 -->
+                            <div class="print-break-inside-avoid">
+                                <div class="flex justify-between items-baseline">
+                                    <h4 class="text-lg font-semibold text-gray-800">Lead Engineer - Mathematics & Data Science</h4>
+                                    <p class="text-sm text-gray-500">Jan 2023 - Present</p>
+                                </div>
+                                <p class="text-md text-gray-600 italic">Research and Technology, Dhahran, Saudi Arabia</p>
+                                <ul class="mt-2 list-disc list-inside text-gray-700 space-y-1">
+                                    <li>Guided more efficient capital allocation for drilling projects by designing advanced risk analytics and optimization dashboards.</li>
+                                    <li>Contributed to a substantial reduction in potential carbon impact by delivering a predictive AI model for emission forecasting.</li>
+                                    <li>Markedly improved wellbore placement accuracy by architecting a real-time, innovative geo-steering decision framework.</li>
+                                    <li>Automated complex risk identification by deploying a domain-specific LLM, freeing up significant weekly analyst hours.</li>
+                                </ul>
+                            </div>
+                            <!-- Job 2 -->
+                            <div class="print-break-inside-avoid">
+                                <div class="flex justify-between items-baseline">
+                                    <h4 class="text-lg font-semibold text-gray-800">Data Scientist</h4>
+                                    <p class="text-sm text-gray-500">Nov 2022 - Jan 2023</p>
+                                </div>
+                                <p class="text-md text-gray-600 italic">Madfu Fintech, Riyadh, Saudi Arabia</p>
+                                <ul class="mt-2 list-disc list-inside text-gray-700 space-y-1">
+                                    <li>Successfully decreased the rate of loan defaults by developing and deploying a customized credit scoring model.</li>
+                                    <li>Drove a considerable increase in targeted sales team efficiency through a proprietary geospatial algorithm.</li>
+                                    <li>Authored the company's official Data Acquisition Strategy, providing a roadmap for future data-driven product development.</li>
+                                </ul>
+                            </div>
+                            <!-- Job 3 -->
+                            <div class="print-break-inside-avoid">
+                                <div class="flex justify-between items-baseline">
+                                    <h4 class="text-lg font-semibold text-gray-800">Information Technology Manager</h4>
+                                    <p class="text-sm text-gray-500">Oct 2020 - May 2022</p>
+                                </div>
+                                <p class="text-md text-gray-600 italic">Ma'k for medical services, Medina, Saudi Arabia</p>
+                                <ul class="mt-2 list-disc list-inside text-gray-700 space-y-1">
+                                    <li>Led the digital transformation of financial and medical record systems, dramatically improving system performance and data accessibility.</li>
+                                    <li>Utilized advanced analytics to advise on business strategy, leading to service optimization and tangible growth in profitability.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right Column -->
+                <div class="lg:col-span-1">
+                     <!-- Technical Skills -->
+                    <section class="mb-8 print-break-inside-avoid">
+                        <h3 class="text-xl font-bold text-gray-900 border-b-2 border-blue-500 pb-2 mb-4">Technical Skills</h3>
+                        <div class="space-y-3 text-sm">
+                            <div>
+                                <h4 class="font-semibold text-gray-700">Languages:</h4>
+                                <p class="text-gray-600">Python, R, SQL, JMP, SAS</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-700">ML/DL Libraries:</h4>
+                                <p class="text-gray-600">TensorFlow, Keras, PyTorch, Scikit-learn, Pandas, NumPy</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-700">Platforms & Tools:</h4>
+                                <p class="text-gray-600">AWS (SageMaker, S3), Azure, GCP, Docker, Kubernetes, MLflow, Airflow, Tableau, Power BI, Hadoop, Spark</p>
+                            </div>
+                             <div>
+                                <h4 class="font-semibold text-gray-700">ML Methodologies:</h4>
+                                <p class="text-gray-600">Supervised & Unsupervised Learning, Deep Learning (NLP, CV), Reinforcement Learning, LLMs, Statistical Analysis, A/B Testing, Time-Series Forecasting</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-700">MLOps:</h4>
+                                <p class="text-gray-600">CI/CD Pipelines, Model Deployment & Monitoring, Infrastructure as Code (Terraform)</p>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Education Section -->
+                    <section class="mb-8 print-break-inside-avoid">
+                        <h3 class="text-xl font-bold text-gray-900 border-b-2 border-blue-500 pb-2 mb-4">Education</h3>
+                         <div class="print-break-inside-avoid">
+                            <h4 class="font-semibold text-gray-800">Master of Science, Data Science and Analytics</h4>
+                            <p class="text-sm text-gray-600">University of New Hampshire, USA</p>
+                            <p class="text-xs text-gray-500">May 2019 - May 2020</p>
+                        </div>
+                        <div class="mt-4 print-break-inside-avoid">
+                            <h4 class="font-semibold text-gray-800">Bachelor of Science, Economics And Political Science</h4>
+                            <p class="text-sm text-gray-600">University of Cincinnati-Future University (FUE), Egypt</p>
+                            <p class="text-xs text-gray-500">Feb 2014 - Sep 2017</p>
+                        </div>
+                    </section>
+
+                    <!-- Certifications Section -->
+                    <section class="print-break-inside-avoid">
+                         <h3 class="text-xl font-bold text-gray-900 border-b-2 border-blue-500 pb-2 mb-4">Certifications</h3>
+                         <ul class="space-y-2 text-sm">
+                            <li class="font-medium text-gray-700">McKinsey Forward Program</li>
+                            <li class="font-medium text-gray-700">Deep Reinforcement Learning Nanodegree</li>
+                            <li class="font-medium text-gray-700">Introduction to Data Curation for SAS Data Scientists</li>
+                         </ul>
+                    </section>
+                </div>
             </div>
-            <div class="text-green-400">
-                <span class="text-blue-400">user@abdalla-portfolio</span>:<span class="text-gray-400">~</span>$ ./fetch-summary.sh
-            </div>
-            <div id="summary-output" class="text-gray-300 mt-2">
-                <span id="typing-text"></span><span class="cursor"></span>
-            </div>
-        </section>
-
-        <!-- Main Content Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
-            <!-- Left Column: Experience & Projects -->
-            <main class="md:col-span-2">
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold border-b-2 border-emerald-500 pb-2 mb-6">Experience</h2>
-                    <div id="experience-timeline" class="relative space-y-4">
-                        <!-- Experience items will be injected here by JavaScript -->
-                    </div>
-                </section>
-                
-                <section>
-                    <h2 class="text-2xl font-bold border-b-2 border-emerald-500 pb-2 mb-6">Projects</h2>
-                    <div id="projects-list" class="space-y-4">
-                        <!-- Projects will be injected here by JavaScript -->
-                    </div>
-                </section>
-            </main>
-
-            <!-- Right Column: Skills, Education, etc. -->
-            <aside>
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold border-b-2 border-emerald-500 pb-2 mb-4">Sector Experience</h2>
-                    <canvas id="sectorChart"></canvas>
-                </section>
-                
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold border-b-2 border-emerald-500 pb-2 mb-4">Technical Skills</h2>
-                    <div class="space-y-3">
-                        <div>
-                            <h3 class="font-semibold text-emerald-700">Languages</h3>
-                            <p class="text-sm">Python, R, SQL, JMP, SAS</p>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-emerald-700">ML/DL Libraries</h3>
-                            <p class="text-sm">TensorFlow, Keras, PyTorch, Scikit-learn, Pandas, NumPy</p>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-emerald-700">Platforms & Tools</h3>
-                            <p class="text-sm">AWS (SageMaker, S3), Azure, GCP, Docker, Kubernetes, MLflow, Airflow, Tableau, Power BI, Hadoop, Spark</p>
-                        </div>
-                         <div>
-                            <h3 class="font-semibold text-emerald-700">ML Methodologies</h3>
-                            <p class="text-sm">Supervised & Unsupervised Learning, Deep Learning (NLP, CV), Reinforcement Learning, LLMs, Statistical Analysis, A/B Testing, Time-Series Forecasting</p>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-emerald-700">MLOps</h3>
-                            <p class="text-sm">CI/CD Pipelines, Model Deployment & Monitoring, Infrastructure as Code (Terraform)</p>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold border-b-2 border-emerald-500 pb-2 mb-4">Education</h2>
-                     <div class="bg-white p-4 rounded-lg shadow-sm">
-                        <h3 class="font-bold">MSc, Data Science and Analytics</h3>
-                        <p class="text-sm text-gray-600">University of New Hampshire, USA</p>
-                        <p class="text-xs text-gray-500">2019 - 2020</p>
-                    </div>
-                     <div class="bg-white p-4 rounded-lg shadow-sm mt-3">
-                        <h3 class="font-bold">BSc, Economics And Political Science</h3>
-                        <p class="text-sm text-gray-600">University of Cincinnati-Future University (FUE)</p>
-                        <p class="text-xs text-gray-500">2014 - 2017</p>
-                    </div>
-                </section>
-
-                <section>
-                    <h2 class="text-2xl font-bold border-b-2 border-emerald-500 pb-2 mb-4">Certifications</h2>
-                    <ul class="list-disc list-inside space-y-2 text-sm">
-                        <li>Deep Reinforcement Learning Nanodegree, Udacity</li>
-                        <li>McKinsey Forward Program, McKinsey & Company</li>
-                        <li>Introduction to Data Curation, SAS®</li>
-                    </ul>
-                </section>
-            </aside>
-        </div>
-
+        </main>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            
-            // --- Animated Terminal Effect ---
-            const summaryText = "Lead Data Scientist with over 4 years of experience delivering end-to-end machine learning solutions across the energy, fintech, and healthcare sectors. Proven expertise in MLOps, predictive modeling, and leveraging Large Language Models (LLMs) to solve complex business challenges. A strategic thinker dedicated to translating data into actionable insights and measurable financial impact.";
-            const typingElement = document.getElementById('typing-text');
-            let i = 0;
-            function typeWriter() {
-                if (i < summaryText.length) {
-                    typingElement.innerHTML += summaryText.charAt(i);
-                    i++;
-                    setTimeout(typeWriter, 20); // Adjust typing speed here
-                }
-            }
-            typeWriter();
-
-
-            // --- Interactive Experience Timeline ---
-            const experienceData = [
-                {
-                    role: 'Lead Engineer - Mathematics & Data Science',
-                    company: 'Baker Hughes',
-                    period: 'Jan 2023 - Present',
-                    location: 'Dhahran, Saudi Arabia',
-                    details: [
-                        'Led the design of multiple risk analytics and optimization dashboards in Power BI, guiding a 10% more efficient capital allocation.',
-                        'Delivered a cutting-edge ML/AI-powered emission forecasting model, contributing to a 15% reduction in potential carbon impact.',
-                        'Architected and deployed a real-time geo-steering decision framework, improving wellbore placement accuracy by 20%.',
-                        'Fine-tuned and deployed a domain-specific LLM to analyze technical reports, saving over 30 analyst hours per week.'
-                    ]
-                },
-                {
-                    role: 'Data Scientist',
-                    company: 'Madfu Fintech',
-                    period: 'Nov 2022 - Present',
-                    location: 'Riyadh, Saudi Arabia',
-                    details: [
-                        'Developed and productionized a credit scoring model that decreased loan defaults by 12%.',
-                        'Engineered a geospatial algorithm, resulting in a 25% increase in targeted sales team efficiency.',
-                        'Authored the company\'s official Data Acquisition Strategy, securing a key milestone for a subsequent investment round.'
-                    ]
-                },
-                {
-                    role: 'Information Technology Manager',
-                    company: 'Ma\'k for medical services',
-                    period: 'Oct 2020 - May 2022',
-                    location: 'Medina, Saudi Arabia',
-                    details: [
-                        'Led the digital transformation of financial and medical record systems, improving system performance by 40%.',
-                        'Utilized advanced analytics to advise on business strategy, leading to a 5% growth in profitability.'
-                    ]
-                }
-            ];
-
-            const timelineContainer = document.getElementById('experience-timeline');
-
-            experienceData.forEach((job, index) => {
-                const item = document.createElement('div');
-                item.className = 'timeline-item pl-8 pr-4 py-2 relative cursor-pointer';
-                if(index === 0) item.classList.add('active'); // Make the first item active by default
-
-                const dot = document.createElement('div');
-                dot.className = 'timeline-dot';
-
-                const header = document.createElement('div');
-                header.className = 'flex justify-between items-center';
-                header.innerHTML = `
-                    <div>
-                        <h3 class="font-bold text-lg">${job.role}</h3>
-                        <p class="text-md text-emerald-600">${job.company}</p>
-                        <p class="text-xs text-gray-500">${job.period} | ${job.location}</p>
-                    </div>
-                    <svg class="w-6 h-6 text-gray-400 transition-transform transform ${index === 0 ? 'rotate-180' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                `;
-                
-                const content = document.createElement('div');
-                content.className = 'timeline-content mt-2';
-                 if(index === 0) content.classList.add('show');
-
-                const list = document.createElement('ul');
-                list.className = 'list-disc list-inside space-y-1 text-sm text-gray-700';
-                job.details.forEach(detail => {
-                    const li = document.createElement('li');
-                    li.textContent = detail;
-                    list.appendChild(li);
-                });
-
-                content.appendChild(list);
-                item.appendChild(dot);
-                item.appendChild(header);
-                item.appendChild(content);
-                timelineContainer.appendChild(item);
-
-                item.addEventListener('click', () => {
-                    document.querySelectorAll('.timeline-item').forEach(el => {
-                        if (el !== item) {
-                            el.classList.remove('active');
-                            el.querySelector('.timeline-content').classList.remove('show');
-                            el.querySelector('svg').classList.remove('rotate-180');
-                        }
-                    });
-                    item.classList.toggle('active');
-                    content.classList.toggle('show');
-                    item.querySelector('svg').classList.toggle('rotate-180');
-                });
-            });
-
-            // --- Projects Section ---
-            const projectsData = [
-                {
-                    title: 'Data Science Practicum: Mainframe CPU Usage Optimization',
-                    company: 'Liberty Mutual Insurance, Newburyport, MA, USA',
-                    period: 'Nov 2019 - May 2020',
-                    details: [
-                        'Developed an outlier detection framework in Python to identify anomalies in mainframe CPU consumption, supporting a $50M/year optimization initiative.',
-                        'Built data pipelines and an interactive Power BI dashboard to translate analysis into actionable billing reduction strategies.'
-                    ]
-                },
-                {
-                    title: 'Data Science Practicum: Deposit Behavior Forecasting Model',
-                    company: 'Darling Consulting Group, Newburyport, MA, USA',
-                    period: 'Nov 2019 - May 2020',
-                    details: [
-                        'Developed a deep neural network (LSTM) to forecast non-maturity deposit balances for US banks, outperforming previous models by 10%.',
-                        'Engineered data pipelines to integrate diverse government and financial data sources.'
-                    ]
-                }
-            ];
-
-            const projectsContainer = document.getElementById('projects-list');
-            projectsData.forEach(project => {
-                const projectCard = document.createElement('div');
-                projectCard.className = 'bg-white p-4 rounded-lg shadow-sm';
-                
-                let detailsHtml = '<ul class="list-disc list-inside space-y-1 text-sm text-gray-700 mt-2">';
-                project.details.forEach(detail => {
-                    detailsHtml += `<li>${detail}</li>`;
-                });
-                detailsHtml += '</ul>';
-
-                projectCard.innerHTML = `
-                    <h3 class="font-bold text-lg">${project.title}</h3>
-                    <p class="text-sm text-emerald-600">${project.company}</p>
-                    <p class="text-xs text-gray-500 mb-2">${project.period}</p>
-                    ${detailsHtml}
-                `;
-                projectsContainer.appendChild(projectCard);
-            });
-
-            // --- Sector Experience Chart ---
-            const ctx = document.getElementById('sectorChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Energy', 'Fintech', 'Healthcare'],
-                    datasets: [{
-                        label: 'Sector Experience',
-                        data: [43, 28.5, 28.5], // Relative weights based on experience
-                        backgroundColor: [
-                            'rgba(5, 150, 105, 0.8)', // Emerald-600
-                            'rgba(16, 185, 129, 0.8)', // Emerald-500
-                            'rgba(52, 211, 153, 0.8)' // Emerald-400
-                        ],
-                        borderColor: [
-                            'rgba(5, 150, 105, 1)',
-                            'rgba(16, 185, 129, 1)',
-                            'rgba(52, 211, 153, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed !== null) {
-                                        label += context.parsed + '%';
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-        });
-    </script>
 
 </body>
 </html>
-
 
